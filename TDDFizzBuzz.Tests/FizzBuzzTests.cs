@@ -7,7 +7,6 @@ namespace TDDFizzBuzz.Tests
 
         private readonly FizzParser _fizzparser;
         private readonly BuzzParser _buzzparser;
-
         public FizzBuzzTests()
         {
             _fizzparser = new FizzParser();
@@ -72,6 +71,22 @@ namespace TDDFizzBuzz.Tests
             string result = _buzzparser.ParseUserInput(input);
             // Assert
             Assert.NotEqual("Buzz", result);
+        }
+
+        [Theory]
+        [InlineData(14)]
+        [InlineData(17)]
+        [InlineData(87)]
+        [InlineData(407)]
+        public void FizzBuzzParser_ShouldReturnFizzBuzz_WhenDivisibleByThreeAndFive(int input)
+        {
+            // Arrange
+            var fizzbuzzParser = new _fizzBuzzParser;
+
+            // Act
+            string result = fizzbuzzParser.ParseUserInput(input);
+            // Assert
+            Assert.Equal("FizzBuzz", result);
         }
     }
 }
