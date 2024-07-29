@@ -19,15 +19,23 @@ public class FizzBuzz
 
     }
 
+    //uses reflection to get everything assigned to our helper.
     private List<IBaseHelper> GetParsers()
     {
         var parserType = typeof(IBaseHelper);
         var types = Assembly.GetExecutingAssembly().GetTypes()
+            //include only those that implement IBaseHelper and arent abstract or interfaces
             .Where(t => parserType.IsAssignableFrom(t) && !t.IsAbstract && !t.IsInterface)
+            .Select(x => Activator.CreateInstance(x))
+            // cast the created instances to IBaseHelper
+            .Cast<IBaseHelper>()
+            //orders the list of our ibasehelper instances appropriately so fizzbuzz is priority 
+            .OrderByDescending(p => p.divisor)
             .ToList();
 
-        return types.Select(t => (IBaseHelper)Activator.CreateInstance(t)).ToList();
+        return types;
     }
+
 
     public void GetUserInput()
     {
@@ -36,7 +44,7 @@ public class FizzBuzz
 
         while (true)
         {
-            Console.Write("Enter the starting number: ");
+            Console.Write("Enter the starting number of your number range: ");
             if(int.TryParse(Console.ReadLine(), out startRange))
             {
                 break;
@@ -47,7 +55,7 @@ public class FizzBuzz
 
         while (true)
         {
-            Console.Write("Enter the starting number: ");
+            Console.Write("Enter the end number: ");
             if (int.TryParse(Console.ReadLine(), out endRange))
             {
                 break;
@@ -55,6 +63,8 @@ public class FizzBuzz
 
             Console.WriteLine("Invalid input. Enter a valid number");
         }
+
+        Console.WriteLine("Fizzbuzz results: ");
 
         for(int i = startRange; i <= endRange; i++)
         {
