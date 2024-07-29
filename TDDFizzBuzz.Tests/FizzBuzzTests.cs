@@ -6,10 +6,12 @@ namespace TDDFizzBuzz.Tests
     {
 
         private readonly FizzParser _fizzparser;
+        private readonly BuzzParser _buzzparser;
 
         public FizzBuzzTests()
         {
             _fizzparser = new FizzParser();
+            _buzzparser = new BuzzParser();
         }
 
         [Theory]
@@ -32,11 +34,9 @@ namespace TDDFizzBuzz.Tests
         [InlineData(10)]
         public void get_output_should_return_buzz(int input)
         {
-            //Arrange
-            var buzzParser = new BuzzParser();
 
             //Act
-            string result = buzzParser.ParseUserInput(input);
+            string result = _buzzparser.ParseUserInput(input);
 
             //Assert
             Assert.Equal("Buzz", result);

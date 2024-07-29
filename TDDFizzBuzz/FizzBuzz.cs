@@ -1,12 +1,14 @@
-﻿using TDDFizzBuzz.Parsers;
+﻿using System.Reflection;
+using TDDFizzBuzz.Interfaces;
+using TDDFizzBuzz.Parsers;
 
 public class FizzBuzz
-{
-    private FizzParser _fizzParser;
+{ 
+    private readonly List<IBaseHelper> _parsers;
 
     public FizzBuzz()
     {
-        _fizzParser = new FizzParser();
+        _parsers = GetParsers();
     }
 
     public static void Main(string[] args)
@@ -15,6 +17,16 @@ public class FizzBuzz
  
         fizzBuzz.GetUserInput();
 
+    }
+
+    private List<IBaseHelper> GetParsers()
+    {
+        var parserType = typeof(IBaseHelper);
+        var types = Assembly.GetExecutingAssembly().GetTypes()
+            .Where(t => parserType.IsAssignableFrom(t) && !t.IsAbstract && !t.IsInterface)
+            .ToList();
+
+        return types.Select(t => (IBaseHelper)Activator.CreateInstance(t)).ToList();
     }
 
     public void GetUserInput()
@@ -46,7 +58,21 @@ public class FizzBuzz
 
         for(int i = startRange; i <= endRange; i++)
         {
-            Console.WriteLine(_fizzParser.ParseUserInput(i));
+            Console.WriteLine(GetOutput(i));
         }
+    }
+
+    public string GetOutput(int number)
+    {
+        foreach (var parser in _parsers)
+        {
+            var result = parser.ParseUserInput(number);
+
+            if(result != number.ToString())
+            {
+                return result;
+            }
+        }
+        return number.ToString();
     }
 }
