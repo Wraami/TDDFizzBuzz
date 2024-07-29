@@ -39,36 +39,27 @@ public class FizzBuzz
 
     public void GetUserInput()
     {
-        int startRange;
-        int endRange;
+        int startRange = GetValidNumberForRange("Enter the starting number of your range: ");
+        int endRange = GetValidNumberForRange("Enter the end number of your range: ");
 
-        while (true)
-        {
-            Console.Write("Enter the starting number of your number range: ");
-            if(int.TryParse(Console.ReadLine(), out startRange))
-            {
-                break;
-            }
-
-            Console.WriteLine("Invalid input. Enter a valid start range");
-        }
-
-        while (true)
-        {
-            Console.Write("Enter the end number: ");
-            if (int.TryParse(Console.ReadLine(), out endRange))
-            {
-                break;
-            }
-
-            Console.WriteLine("Invalid input. Enter a valid number");
-        }
-
-        Console.WriteLine("Fizzbuzz results: ");
-
-        for(int i = startRange; i <= endRange; i++)
+        Console.WriteLine("FizzBuzz results: ");
+        for (int i = startRange; i <= endRange; i++)
         {
             Console.WriteLine(GetOutput(i));
+        }
+    }
+
+    private int GetValidNumberForRange(string prompt)
+    {
+        int number;
+        while (true)
+        {
+            Console.Write(prompt);
+            if (int.TryParse(Console.ReadLine(), out number))
+            {
+                return number;
+            }
+            Console.WriteLine("Invalid input. Please enter a valid number!");
         }
     }
 
