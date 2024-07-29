@@ -26,5 +26,21 @@ namespace TDDFizzBuzz.Tests
             //Assert
             Assert.Equal("Fizz", result);
         }
+
+        [Theory]
+        [InlineData(5)]
+        [InlineData(10)]
+        public void get_output_should_return_buzz(int input)
+        {
+            //Arrange
+            var buzzParser = new BuzzParser();
+
+            //Act
+            string result = buzzParser.ParseUserInput(input);
+
+            //Assert
+            Assert.Equal("Buzz", result);
+
+        }
     }
 }
