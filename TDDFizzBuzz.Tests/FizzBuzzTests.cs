@@ -89,5 +89,19 @@ namespace TDDFizzBuzz.Tests
             // Assert
             Assert.Equal("FizzBuzz", result);
         }
+
+        [Theory]
+        [InlineData(14)]
+        [InlineData(74)]
+        [InlineData(89)]
+        public void FizzBuzzParser_ShouldNotReturnFizzBuzz_WhenNotDivisibleByThreeAndFive(int input)
+        {
+            // Arrange
+
+            // Act
+            string result = _fizzbuzzparser.ParseUserInput(input);
+            // Assert
+            Assert.NotEqual("FizzBuzz", result);
+        }
     }
 }
